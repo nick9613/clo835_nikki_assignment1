@@ -8,7 +8,7 @@
 
 		<h1 style="color: DodgerBlue">Employee Information</h1>
 
-		<body bgcolor="lightgrey">
+		<body style="background: {{ color }};">
 
 			<form>
 
@@ -23,13 +23,11 @@
 			  		Primary Interest:<br> {{ interest }} <br><br>
 
 			  		Location:<br> {{ location }} <br><br>
-
-			  		<button type="submit" style="background: grey; height: 45px; width: 200px; color:white; font:oblique;" formaction="http://3.134.115.108:80/getemp">RESET</button><br><br>
-
+			  		
 			  	</div>
 
 			</form>
-
+			<a href="{{ url_for('home') }}">Back</a>
 		</body>
 
 	</font>

@@ -1,3 +1,2 @@
-flask
-boto3
-pymysql
+flask==2.0.3
+pymysql==1.0.2

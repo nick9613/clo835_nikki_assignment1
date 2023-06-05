@@ -12,25 +12,21 @@
 
 ```sudo systemctl status docker```
 
-#3. Update the aws credentials 
+# 3. Update the aws credentials 
 
 ```vi ~/.aws/credentials```
 
-#4. Export the ECR and login
+# 4. Export the ECR and login
 
 ```export ECR = <ecr uri>```
 ```aws ecr get-login-password --region us-east-1 | docker login -u AWS ${ECR} --password-stdin```
 
-#5. 
+# 5. Pull the image
 
-# Running application locally
-pip3 install -r requirements.txt
-sudo python3 app.py
-# Building and running 2 tier web application locally
-### Building mysql docker image 
-```docker build -t my_db -f Dockerfile_mysql . ```
+``` docker pull <image-uri>```
 
-### Building application docker image 
-```docker build -t my_app -f Dockerfile . ```
+# 6. Now create the containers.
 
-### Running mysql
+```docker run -d -e MYSQL_ROOT_PASSWORD=db_pass123 --name mysql-db <image-id>```
+```docker run -d -e DBHOST=mysql-db -e DBPORT=3306 -e DBPWD=db_pass123 -e APP_COLOR=blue -p 81:8080 --name webapp1 --link mysql-db:mysql-db```
+### Thank You

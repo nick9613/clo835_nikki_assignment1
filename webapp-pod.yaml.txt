@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webapp-pod
+  namespace: webapp
+spec:
+  containers:
+    - name: webapp
+      image: <your-webapp-image>:<tag>
+      ports:
+        - containerPort: 8080

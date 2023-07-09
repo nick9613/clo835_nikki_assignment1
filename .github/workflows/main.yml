@@ -26,7 +26,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: kennith-webapp-ecr-repo
-        APPLICATION_IMAGE_TAG: v0.1
+        APPLICATION_IMAGE_TAG: v1.1
       run: |
         
         # Docker build and push application image
@@ -36,7 +36,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: kennith-mysql-ecr-repo
-        MYSQL_IMAGE_TAG: v0.1
+        MYSQL_IMAGE_TAG: v1.1
       run: |
         # Docker build and push MySQL image
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:mysql-$MYSQL_IMAGE_TAG -f Dockerfile_mysql .

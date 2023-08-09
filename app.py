@@ -1,8 +1,11 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 from pymysql import connections
 import os
 import random
 import argparse
+import boto3
+
+BUCKET = "clog15"
 
 
 app = Flask(__name__)
@@ -44,15 +47,30 @@ SUPPORTED_COLORS = ",".join(color_codes.keys())
 # Generate a random color
 COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lime"])
 
+def download_file(file_name, bucket):
+    """
+    Function to download a given file from an S3 bucket
+    """
+    s3 = boto3.resource('s3')
+    output = f"canada.jpeg"
+    s3.Bucket(bucket).download_file(file_name, output)
+
+    return output
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('addemp.html', color=color_codes[COLOR])
+    return render_template('addemp.html', color=color_codes[COLOR], image=['https://clog15.s3.amazonaws.com/canada.jpeg'])
+
+@app.route("/download/<filename>", methods=['GET'])
+def download(filename):
+    if request.method == 'GET':
+        output = download_file(filename, BUCKET)
+        return send_file(output, as_attachment=True)
 
 @app.route("/about", methods=['GET','POST'])
 def about():
     return render_template('about.html', color=color_codes[COLOR])
-    
+
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
     emp_id = request.form['emp_id']
@@ -60,8 +78,7 @@ def AddEmp():
     last_name = request.form['last_name']
     primary_skill = request.form['primary_skill']
     location = request.form['location']
-
-  
+    
     insert_sql = "INSERT INTO employee VALUES (%s, %s, %s, %s, %s)"
     cursor = db_conn.cursor()
 
@@ -85,7 +102,6 @@ def GetEmp():
 @app.route("/fetchdata", methods=['GET','POST'])
 def FetchData():
     emp_id = request.form['emp_id']
-
     output = {}
     select_sql = "SELECT emp_id, first_name, last_name, primary_skill, location from employee where emp_id=%s"
     cursor = db_conn.cursor()
@@ -109,7 +125,6 @@ def FetchData():
 
     return render_template("getempoutput.html", id=output["emp_id"], fname=output["first_name"],
                            lname=output["last_name"], interest=output["primary_skills"], location=output["location"], color=color_codes[COLOR])
-
 if __name__ == '__main__':
     
     # Check for Command Line Parameters for color

@@ -38,12 +38,12 @@ def download(bucket = default_bucket, imageName = default_image):
         imagesDir = "static"
         if not os.path.exists(imagesDir):
             os.makedirs(imagesDir)
-        bgImagePath = os.path.join(imagesDir, "background.jpeg")
+        bgImagePath = os.path.join(imagesDir, "canada.jpeg")
         
         print(bucket, imageName)
         s3 = boto3.resource('s3')
         s3.Bucket(bucket).download_file(imageName, bgImagePath)
-        return os.path.join(imagesDir, "background.png")
+        return os.path.join(imagesDir, "canada.jpeg")
     except Exception as e:
         print("Exception occurred while fetching the image! Check the log: ", e)
        

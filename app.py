@@ -12,8 +12,8 @@ DBHOST = os.environ.get("DBHOST") or "localhost"
 DBUSER = os.environ.get("DBUSER") or "root"
 DBPWD = os.environ.get("DBPWD") or "password"
 DATABASE = os.environ.get("DATABASE") or "employees"
-BGIMG = os.environ.get("BGIMG") or "canada.jpeg"
-BUCKETNAME = os.environ.get("BUCKETNAME") or "clog15"
+BGIMG = os.environ.get("BGIMG") or "https://clog15.s3.amazonaws.com/canada.jpeg"
+BUCKETNAME = os.environ.get("BUCKETNAME") or "https://clog15.s3.amazonaws.com/canada.jpeg"
 GRPNAME = os.environ.get("GRPNAME") or "Group 15"
 DBPORT = int(os.environ.get("DBPORT", "3306"))
 
@@ -29,8 +29,8 @@ db_conn = connections.Connection(
 output = {}
 table = 'employee';
 
-default_bucket = "clog15"
-default_image = "canada.jpeg"
+default_bucket = "https://clog15.s3.amazonaws.com/canada.jpeg"
+default_image = "https://clog15.s3.amazonaws.com/canada.jpeg"
 
 @app.route("/download", methods=['GET', 'POST'])
 def download(bucket=default_bucket, imageName=default_image):

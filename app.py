@@ -12,9 +12,8 @@ DBHOST = os.environ.get("DBHOST") or "localhost"
 DBUSER = os.environ.get("DBUSER") or "root"
 DBPWD = os.environ.get("DBPWD") or "password"
 DATABASE = os.environ.get("DATABASE") or "employees"
-BGIMG = os.environ.get("BGIMG") or "https://clog15.s3.amazonaws.com/canada.jpeg"
-BUCKETNAME = os.environ.get("BUCKETNAME") or "https://clog15.s3.amazonaws.com/canada.jpeg"
 GRPNAME = os.environ.get("GRPNAME") or "Group 15"
+IMAGE_URL = os.environ.get("IMAGE_URL") or "Broken IMG"
 DBPORT = int(os.environ.get("DBPORT", "3306"))
 
 # Create a connection to the MySQL database
@@ -29,23 +28,23 @@ db_conn = connections.Connection(
 output = {}
 table = 'employee';
 
-default_bucket = "https://clog15.s3.amazonaws.com/canada.jpeg"
-default_image = "https://clog15.s3.amazonaws.com/canada.jpeg"
+DOWNLOADS_PATH = "static/downloads"
+if not os.path.exists(DOWNLOADS_PATH):
+    os.makedirs(DOWNLOADS_PATH)
 
-@app.route("/download", methods=['GET', 'POST'])
-def download(bucket=default_bucket, imageName=default_image):
-    try:
-        imagesDir = "static"
-        if not os.path.exists(imagesDir):
-            os.makedirs(imagesDir)
-        localImagePath = os.path.join(imagesDir, imageName)
+IMAGE_URL = "https://clog15.s3.amazonaws.com/canada.jpeg"
+IMAGE_PATH = os.path.join(DOWNLOADS_PATH, "canada.jpeg")
+response = requests.get(IMAGE_URL)
+if response.status_code == 200:
+    with open(IMAGE_PATH, "wb") as f:
+        f.write(response.content)
+    print("Image downloaded successfully.")
+else:
+    print("Failed to download image.")
 
-        s3 = boto3.client('s3')
-        s3.download_file(bucket, imageName, localImagePath)
-        
-        return localImagePath
-    except Exception as e:
-        print("Exception occurred while fetching the image! Check the log: ", e)
+# Define a variable for the image path
+BACKGROUND_IMAGE_PATH = "/static/downloads/canada.jpeg"  
+
      
 @app.route("/", methods=['GET', 'POST'])
 def home():

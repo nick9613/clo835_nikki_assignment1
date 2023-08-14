@@ -33,20 +33,20 @@ default_bucket = "clog15"
 default_image = "canada.jpeg"
 
 @app.route("/download", methods=['GET', 'POST'])
-def download(bucket = default_bucket, imageName = default_image):
+def download(bucket=default_bucket, imageName=default_image):
     try:
         imagesDir = "static"
         if not os.path.exists(imagesDir):
             os.makedirs(imagesDir)
-        bgImagePath = os.path.join(imagesDir, "canada.jpeg")
+        localImagePath = os.path.join(imagesDir, imageName)
+
+        s3 = boto3.client('s3')
+        s3.download_file(bucket, imageName, localImagePath)
         
-        print(bucket, imageName)
-        s3 = boto3.resource('s3')
-        s3.Bucket(bucket).download_file(imageName, bgImagePath)
-        return os.path.join(imagesDir, "canada.jpeg")
+        return localImagePath
     except Exception as e:
         print("Exception occurred while fetching the image! Check the log: ", e)
-       
+     
 @app.route("/", methods=['GET', 'POST'])
 def home():
     return render_template('addemp.html', image=image, group_name=GRPNAME)

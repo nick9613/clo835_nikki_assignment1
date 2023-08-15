@@ -15,7 +15,7 @@ DBPWD = os.environ.get("DBPWD") or "password"
 DATABASE = os.environ.get("DATABASE") or "employees"
 BGIMG = os.environ.get("BGIMG") or "canada.jpeg"
 BUCKETNAME = os.environ.get("BUCKETNAME") or "clog15"
-GRPNAME = os.environ.get("GRPNAME") or "Group 15"
+GRPNAME = os.environ.get("GRPNAME") or "Group15"
 DBPORT = int(os.environ.get("DBPORT", "3306"))
 
 # Create a connection to the MySQL database

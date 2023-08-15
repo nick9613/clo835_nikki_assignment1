@@ -34,18 +34,21 @@ table = 'employee';
 default_bucket = "clog15"
 default_image = "https://clog15.s3.amazonaws.com/canada.jpeg"
 
-def download_file(file_name,default_bucket):
-    s3 = boto3.resource('s3')
-    output = f"canada.jpeg"
-    s3.Bucket(default_bucket).download_file(file_name, output)
-    return output
-    
-@app.route("/download/<filename>", methods=['GET'])
-def download(filename):
-    if request.method == 'GET':
-        output = download_file(filename, default_bucket)
-        return send_file(output, as_attachment=True)
+@app.route("/download", methods=['GET', 'POST'])
+def download(bucket = default_bucket, imageName = default_image):
+    try:
+        imagesDir = "static"
+        if not os.path.exists(imagesDir):
+            os.makedirs(imagesDir)
+        bgImagePath = os.path.join(imagesDir, "https://clog15.s3.amazonaws.com/canada.jpeg")
 
+        print(bucket, imageName)
+        s3 = boto3.resource('s3')
+        s3.Bucket(bucket).download_file(imageName, bgImagePath)
+        return os.path.join(imagesDir, "https://clog15.s3.amazonaws.com/canada.jpeg")
+    except Exception as e:
+        print("Exception occured while fetching the image! Check the log --> ", e)
+        
 @app.route("/", methods=['GET', 'POST'])
 def home():
     return render_template('addemp.html', image=BGIMG, group_name=GRPNAME)

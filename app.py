@@ -3,10 +3,10 @@ from pymysql import connections
 import os
 import random
 import argparse
+import boto3
 
-# Import the required libraries
-import requests
-from flask import send_from_directory
+
+app = Flask(__name__)
 
   
 

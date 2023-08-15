@@ -26,7 +26,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: websrv-img
-        APPLICATION_IMAGE_TAG: webserver_version_10.10
+        APPLICATION_IMAGE_TAG: webserver_version_10.11
       run: |
         
         # Docker build and push application image
@@ -36,7 +36,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: mysql-img
-        MYSQL_IMAGE_TAG: mysql_version_10.10
+        MYSQL_IMAGE_TAG: mysql_version_10.11
       run: |
         # Docker build and push MySQL image
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$MYSQL_IMAGE_TAG -f Dockerfile_mysql .

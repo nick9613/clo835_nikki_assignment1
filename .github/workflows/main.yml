@@ -28,7 +28,7 @@ jobs:
     - name: Build, test, tag, and push web application image to Amazon ECR  
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: webserv-img
+        ECR_REPOSITORY: websrv-img
         IMAGE_TAG: v1.0
       run: |
         # Docker build

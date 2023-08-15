@@ -4,6 +4,7 @@ import os
 import random
 import argparse
 import boto3
+import requests
 
 app = Flask(__name__)
 
